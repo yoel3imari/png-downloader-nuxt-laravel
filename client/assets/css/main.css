@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*, *::after, *::before {
+  box-sizing: border-box;
+}
+
+html, body, #app, #root, #__nuxt {
+  @apply w-full h-full font-['Noto_sans'] tracking-wide
+}
+
+.tw-input {
+  @apply px-3 py-2 rounded-md min-w-[100px]
+}
+
+.tw-btn {
+  @apply bg-primary disabled:cursor-not-allowed disabled:bg-neutral hover:text-secondary focus:text-secondary focus:outline-offset-2 py-2 px-3 rounded-lg font-semibold text-secondary border-none min-w-[100px]
+}
