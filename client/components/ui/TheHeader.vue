@@ -9,7 +9,7 @@
         >
       </div>
 
-      <div id="navbar" class="w-full">
+      <div id="navbar" class="hidden lg:block w-full">
         <ul class="m-0 flex items-center justify-center gap-6">
           <li>
             <NuxtLink href="#">Galaxy</NuxtLink>
@@ -29,16 +29,22 @@
         </ul>
       </div>
 
+
       <div id="options" class="flex items-center gap-4">
-        <NuxtLink href="/auth/sin-up">
-          <button class="tw-btn text-sm">Sign up</button>
+        <NuxtLink href="/auth/sin-up" >
+          <span class="tw-btn min-w-[100px] flex items-center justify-center">
+            <Icon name="mdi:plus" class="text-xl"/>
+            <span class="w-full text-center text-sm">Upload</span>
+          </span>
         </NuxtLink>
-        <NuxtLink href="/auth/login" class="">Login</NuxtLink>
       </div>
     </div>
   </header>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import HeaderSearch from './HeaderSearch.vue';
+
+</script>
 
 <style scoped></style>
