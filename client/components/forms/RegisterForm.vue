@@ -1,62 +1,6 @@
 <template>
-  <a-form
-    ref="formRef"
-    :model="formState"
-    name="normal_signup"
-    layout="vertical"
-    :rules="rules"
-    @finish="onFinish"
-    @finish-failed="onFinishFailed"
-  >
-    <a-form-item
-      label="Email"
-      name="email"
-      class="min-w-[300px]"
-      :rules="[{ required: true, message: 'Please input a valid email!' }]"
-    >
-      <a-input v-model:value="formState.email" type="email">
-        <template #prefix>
-          <UserOutlined class="site-form-item-icon" />
-        </template>
-      </a-input>
-    </a-form-item>
-
-    <a-form-item
-      label="Password"
-      name="password"
-      :rules="[{ required: true, message: 'Please input your password!' }]"
-    >
-      <a-input-password v-model:value="formState.password">
-        <template #prefix>
-          <LockOutlined class="site-form-item-icon" />
-        </template>
-      </a-input-password>
-    </a-form-item>
-
-    <a-form-item
-      label="Confirm Password"
-      name="confirmPassword"
-      :rules="[{ required: true, message: 'Please confirm your password!' }]"
-    >
-      <a-input-password v-model:value="formState.confirmPassword">
-        <template #prefix>
-          <LockOutlined class="site-form-item-icon" />
-        </template>
-      </a-input-password>
-    </a-form-item>
-
-    <a-form-item class="mb-4 mt-8">
-      <button :disabled="disabled" type="submit" class="tw-btn">Sign up</button>
-    </a-form-item>
-
-    <div class="flex gap-4">
-      <div>
-        <NuxtLink href="/auth/login" class="underline"
-          >I already have an account!</NuxtLink
-        >
-      </div>
-    </div>
-  </a-form>
+  
+  <contextHolder />
 </template>
 <script lang="ts" setup>
 import { reactive, computed } from "vue";
@@ -65,11 +9,12 @@ import type { FormInstance } from "ant-design-vue";
 import type { Rule } from "ant-design-vue/es/form";
 
 interface FormState {
-  name?: string;
+  name: string;
   email: string;
   password: string;
   confirmPassword: string;
 }
+const [api, contextHolder] = notification.useNotification();
 const formRef = ref<FormInstance>();
 const formState = reactive<FormState>({
   name: "",
@@ -101,17 +46,43 @@ const validatePass2 = async (_rule: Rule, value: string) => {
   }
 };
 const rules: Record<string, Rule[]> = {
+  name: [{ required: true, trigger: "blur" }],
   email: [{ required: true, trigger: "blur" }],
   password: [{ required: true, validator: validatePass, trigger: "change" }],
   confirmPassword: [{ validator: validatePass2, trigger: "change" }],
 };
 
-const onFinish = (values: any) => {
-  console.log("Success:", values);
+const onFinish = async (values: any) => {
+  const store = useAuthStore();
+  const router = useRouter();
+  try {
+    const res = await store.register({
+      name: formState.name,
+      email: formState.email,
+      password: formState.password,
+    });
+    if (res) {
+      router.push("/dashboard");
+    }
+  } catch (error: any) {
+    console.error(error);
+    api.error({
+      message: "Error",
+      description: error.message,
+      placement: "bottomRight",
+      duration: 3000,
+    });
+  }
 };
 
 const onFinishFailed = (errorInfo: any) => {
-  console.log("Failed:", errorInfo);
+  console.error(errorInfo);
+
+  api.error({
+    message: "Error",
+    description: errorInfo.message,
+    placement: "bottomRight",
+  });
 };
 </script>
 

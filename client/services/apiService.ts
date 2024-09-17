@@ -1,19 +1,30 @@
 import type { AxiosInstance, AxiosRequestConfig } from "axios";
 import axios from "axios";
 import { tokenService } from "./tokenService";
+import { ErrorService } from "./errorService";
+import type { ApiResponse } from "~/utils/definitions";
 
 class ApiService {
   private api: AxiosInstance;
   private token: string | null = null;
+  private static instance: ApiService | null = null;
 
   constructor(baseURL: string) {
+    if (ApiService.instance !== null) {
+      return ApiService.instance;
+    }
+
     this.api = axios.create({
       baseURL: baseURL + "/api",
+      withCredentials: true,
+      withXSRFToken: true,
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
     });
+
+    this.crsf();
 
     // Optionally add interceptors
     this.api.interceptors.request.use(
@@ -32,47 +43,63 @@ class ApiService {
 
     this.api.interceptors.response.use(
       (response) => {
+        console.log(response, "apiService Intercept Response");
         return response;
       },
       (error) => {
-        return Promise.reject(error);
+        console.log(error, "apiService Intercept Error");
+        return Promise.reject(ErrorService.handleError(error));
       }
     );
+
+    ApiService.instance = this;
+    return ApiService.instance;
   }
 
-  async get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
+  async crsf() {
+    if (this.api.defaults.headers["X-CSRF-TOKEN"]) return;
+    const { data } = await this.api.get("/csrf-token");
+    this.api.defaults.headers["X-CSRF-TOKEN"] = data.csrf_token;
+  }
+
+  async get(url: string, config?: AxiosRequestConfig): Promise<ApiResponse> {
+    this.crsf();
     const response = await this.api.get(url, config);
     return response.data;
   }
 
-  async post<T>(
+  async post(
     url: string,
     data: any,
     config?: AxiosRequestConfig
-  ): Promise<T> {
+  ): Promise<ApiResponse> {
+    this.crsf();
     const response = await this.api.post(url, data, config);
     return response.data;
   }
 
-  async put<T>(
+  async put(
     url: string,
     data: any,
     config?: AxiosRequestConfig
-  ): Promise<T> {
+  ): Promise<ApiResponse> {
+    this.crsf();
     const response = await this.api.put(url, data, config);
     return response.data;
   }
 
-  async delete<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
+  async delete(url: string, config?: AxiosRequestConfig): Promise<ApiResponse> {
+    this.crsf();
     const response = await this.api.delete(url, config);
     return response.data;
   }
 
-  async postWithFile<T>(
+  async postWithFile(
     url: string,
     data: FormData,
     config?: AxiosRequestConfig
-  ): Promise<T> {
+  ): Promise<ApiResponse> {
+    this.crsf();
     const configWithFile = {
       headers: {
         "Content-Type": "multipart/form-data",

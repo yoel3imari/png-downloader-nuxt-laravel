@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     "@ant-design-vue/nuxt",
     "@nuxt/icon",
+    "shadcn-nuxt"
   ],
   plugins: ['~/plugins/axios'],
   css: ["~/assets/css/main.css"],
@@ -23,5 +24,8 @@ export default defineNuxtConfig({
     families: {
       "Noto Sans": true,
     },
+  },
+  shadcn: {
+    componentDir: './components/ui'
   }
 });
