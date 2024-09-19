@@ -1,89 +1,154 @@
 <template>
-  
-  <contextHolder />
+  <!-- register form -->
+  <form @submit="onFinish">
+    <!-- name -->
+    <FormField v-slot="{ componentField }" name="name">
+      <FormItem>
+        <FormLabel>Name</FormLabel>
+        <FormControl>
+          <Input
+            type="text"
+            placeholder="type your name"
+            v-bind="componentField"
+          />
+        </FormControl>
+        <FormDescription> This is your public display name. </FormDescription>
+        <FormMessage />
+      </FormItem>
+    </FormField>
+
+    <!-- email -->
+    <FormField v-slot="{ componentField }" name="email">
+      <FormItem>
+        <FormLabel>Email</FormLabel>
+        <FormControl>
+          <Input
+            type="email"
+            placeholder="_________@___.___"
+            v-bind="componentField"
+          />
+        </FormControl>
+        <FormMessage />
+      </FormItem>
+    </FormField>
+
+    <!-- password -->
+    <FormField v-slot="{ componentField }" name="password">
+      <FormItem>
+        <FormLabel>Password</FormLabel>
+        <FormControl>
+          <PasswordInput
+            type="password"
+            placeholder="choose a strong password"
+            v-bind="componentField"
+          />
+        </FormControl>
+        <FormMessage />
+      </FormItem>
+      <!-- <div class="text-sm text-gray-500 mb-4">
+        <ul>
+          <li class="flex items-center gap-2">
+            <Icon name="mdi:check" class="text-green-300" />
+            <span>At least 8 characters</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <Icon name="mdi:check" class="text-green-300" />
+            <span>At least 1 uppercase</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <Icon name="mdi:check" class="text-green-300" />
+            <span>At least 1 number</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <Icon name="mdi:check" class="text-green-300" />
+            <span>At least 1 symbol</span>
+          </li>
+        </ul>
+      </div> -->
+    </FormField>
+
+    <!-- passwordConfirm -->
+    <FormField v-slot="{ componentField }" name="passwordConfirm">
+      <FormItem>
+        <FormLabel>Confirm Password</FormLabel>
+        <FormControl>
+            <PasswordInput
+              type="password"
+              placeholder="Re-type the password"
+              v-bind="componentField"
+              class="pr-10"
+            />
+        </FormControl>
+        <FormMessage />
+      </FormItem>
+    </FormField>
+
+    <Button type="submit"> Submit </Button>
+  </form>
 </template>
 <script lang="ts" setup>
-import { reactive, computed } from "vue";
-import { UserOutlined, LockOutlined } from "@ant-design/icons-vue";
-import type { FormInstance } from "ant-design-vue";
-import type { Rule } from "ant-design-vue/es/form";
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import Input from "@/components/ui/input/Input.vue";
+import Button from "@/components/ui/button/Button.vue";
+import * as z from "zod";
+import { toTypedSchema } from "@vee-validate/zod";
+import { useForm } from "vee-validate";
+import { useToast } from "../ui/toast";
+import PasswordInput from "../ui/input/PasswordInput.vue";
 
-interface FormState {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
-const [api, contextHolder] = notification.useNotification();
-const formRef = ref<FormInstance>();
-const formState = reactive<FormState>({
-  name: "",
-  email: "",
-  password: "",
-  confirmPassword: "",
-});
-const disabled = computed(() => {
-  return !(formState.email && formState.password && formState.confirmPassword);
-});
+const formSchema = toTypedSchema(
+  z
+    .object({
+      name: z.string(),
+      email: z.string().email(),
+      password: z
+        .string()
+        .min(8, "at least 8 characters long")
+        .regex(/[A-Z]/, "at least one uppercase letter")
+        .regex(/[0-9]/, "at least one number")
+        .regex(/[\W_]/, "at least one symbol"),
+      passwordConfirm: z.string(),
+    })
+    .refine((data) => data.passwordConfirm === data.password, {
+      message: "must match password",
+      path: ["passwordConfirm"],
+    })
+);
 
-const validatePass = async (_rule: Rule, value: string) => {
-  if (value === "") {
-    return Promise.reject("Please input the password");
-  } else {
-    if (formState.password !== "") {
-      formRef?.value?.validateFields("confirmPassword");
-    }
-    return Promise.resolve();
-  }
-};
-const validatePass2 = async (_rule: Rule, value: string) => {
-  if (value === "") {
-    return Promise.reject("Please input the password again");
-  } else if (value !== formState.password) {
-    return Promise.reject("Two inputs don't match!");
-  } else {
-    return Promise.resolve();
-  }
-};
-const rules: Record<string, Rule[]> = {
-  name: [{ required: true, trigger: "blur" }],
-  email: [{ required: true, trigger: "blur" }],
-  password: [{ required: true, validator: validatePass, trigger: "change" }],
-  confirmPassword: [{ validator: validatePass2, trigger: "change" }],
-};
+const form = useForm({
+  validationSchema: formSchema
+})
 
-const onFinish = async (values: any) => {
+const { toast } = useToast();
+const onFinish = form.handleSubmit(async (values) => {
+  // console.log(values);
   const store = useAuthStore();
   const router = useRouter();
   try {
     const res = await store.register({
-      name: formState.name,
-      email: formState.email,
-      password: formState.password,
+      name: values.name,
+      email: values.email,
+      password: values.password,
     });
     if (res) {
       router.push("/dashboard");
     }
   } catch (error: any) {
     console.error(error);
-    api.error({
-      message: "Error",
+    toast({
+      title: "Error",
       description: error.message,
-      placement: "bottomRight",
-      duration: 3000,
+      variant: "destructive",
     });
   }
-};
-
-const onFinishFailed = (errorInfo: any) => {
-  console.error(errorInfo);
-
-  api.error({
-    message: "Error",
-    description: errorInfo.message,
-    placement: "bottomRight",
-  });
-};
+});
 </script>
 
 <style scoped></style>

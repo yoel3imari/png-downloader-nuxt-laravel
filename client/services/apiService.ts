@@ -2,7 +2,7 @@ import type { AxiosInstance, AxiosRequestConfig } from "axios";
 import axios from "axios";
 import { tokenService } from "./tokenService";
 import { ErrorService } from "./errorService";
-import type { ApiResponse } from "~/utils/definitions";
+import type { ApiResponse } from "~/libs/definitions";
 
 class ApiService {
   private api: AxiosInstance;

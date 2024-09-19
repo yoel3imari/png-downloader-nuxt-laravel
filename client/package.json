@@ -14,8 +14,8 @@
     "@nuxt/image": "^1.8.0",
     "@nuxtjs/google-fonts": "^3.2.0",
     "@pinia/nuxt": "^0.5.4",
-    "@vee-validate/nuxt": "^4.13.2",
-    "@vueuse/core": "^11.0.3",
+    "@vee-validate/zod": "^4.13.2",
+    "@vueuse/core": "^11.1.0",
     "@vueuse/nuxt": "^11.0.3",
     "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
@@ -24,11 +24,13 @@
     "lucide-vue-next": "^0.441.0",
     "nuxt": "^3.13.1",
     "pinia": "^2.2.2",
-    "radix-vue": "^1.9.5",
+    "radix-vue": "^1.9.6",
     "shadcn-nuxt": "^0.10.4",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
-    "vue": "latest"
+    "vee-validate": "^4.13.2",
+    "vue": "latest",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@nuxt/eslint": "^0.5.6",

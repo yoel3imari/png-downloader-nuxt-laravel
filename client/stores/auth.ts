@@ -1,5 +1,5 @@
 import { tokenService } from "~/services/tokenService";
-import type { Credentials } from "~/utils/definitions";
+import type { Credentials } from "~/libs/definitions";
 import { useStorage } from '@vueuse/core';
 
 const USER_KEY = "user_info";

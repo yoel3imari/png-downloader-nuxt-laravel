@@ -7,12 +7,11 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxtjs/google-fonts",
     "@nuxt/eslint",
-    '@vueuse/nuxt',
-    "@ant-design-vue/nuxt",
+    "@vueuse/nuxt",
     "@nuxt/icon",
-    "shadcn-nuxt"
+    "shadcn-nuxt",
   ],
-  plugins: ['~/plugins/axios'],
+  plugins: ["~/plugins/axios"],
   css: ["~/assets/css/main.css"],
   postcss: {
     plugins: {
@@ -26,6 +25,7 @@ export default defineNuxtConfig({
     },
   },
   shadcn: {
-    componentDir: './components/ui'
-  }
+    prefix: '',
+    componentDir: "./components/ui",
+  },
 });

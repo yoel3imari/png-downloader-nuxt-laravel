@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import HomeSearch from "~/components/ui/HomeSearch.vue";
+import HomeSearch from "~/components/HomeSearch.vue";
 
 const route = useRoute();
 const term = ref();

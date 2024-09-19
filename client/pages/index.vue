@@ -13,8 +13,8 @@
 </template>
 
 <script setup lang="ts">
-import HomeSearch from '~/components/ui/HomeSearch.vue';
-import TheTag from '~/components/ui/TheTag.vue';
+import HomeSearch from '~/components/HomeSearch.vue';
+import TheTag from '~/components/TheTag.vue';
 useHead({
   title: "Download PNG Images for free"
 })
