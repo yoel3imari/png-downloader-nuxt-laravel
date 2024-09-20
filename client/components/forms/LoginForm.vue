@@ -1,38 +1,94 @@
 <template>
-  <div></div>
+  <!-- register form -->
+  <form @submit="onFinish">
+    <!-- email -->
+    <FormField v-slot="{ componentField }" name="email">
+      <FormItem>
+        <FormLabel>Email</FormLabel>
+        <FormControl>
+          <Input
+            type="email"
+            placeholder="_________@___.___"
+            v-bind="componentField"
+          />
+        </FormControl>
+        <FormMessage />
+      </FormItem>
+    </FormField>
+
+    <!-- password -->
+    <FormField v-slot="{ componentField }" name="password">
+      <FormItem>
+        <FormLabel>Password</FormLabel>
+        <FormControl>
+          <PasswordInput
+            placeholder="************"
+            v-bind="componentField"
+          />
+        </FormControl>
+        <FormMessage />
+        <NuxtLink href="/auth/forgot-password" class="underline text-sm">Forgot your password ?</NuxtLink>
+      </FormItem>
+    </FormField>
+
+    <Button class="mb-4" type="submit"> Submit </Button>
+
+    <div>
+      <NuxtLink href="/auth/sign-up" class="underline text-sm"
+        >I don't have an account ?</NuxtLink
+      >
+    </div>
+  </form>
 </template>
 <script lang="ts" setup>
-import { reactive, computed } from "vue";
-import type { Credentials } from "~/libs/definitions";
-import { useAuthStore } from "~/stores/auth";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import Input from "@/components/ui/input/Input.vue";
+import Button from "@/components/ui/button/Button.vue";
+import * as z from "zod";
+import { toTypedSchema } from "@vee-validate/zod";
+import { useForm } from "vee-validate";
+import { useToast } from "../ui/toast";
+import PasswordInput from "../ui/input/PasswordInput.vue";
 
-const formState = reactive<Credentials>({
-  email: "",
-  password: "",
+const formSchema = toTypedSchema(
+  z.object({
+    email: z.string().email(),
+    password: z.string(),
+  })
+);
+
+const form = useForm({
+  validationSchema: formSchema,
 });
-const disabled = computed(() => {
-  return !(formState.email && formState.password);
-});
-const onFinish = async (values: Credentials) => {
+
+const { toast } = useToast();
+const onFinish = form.handleSubmit(async (values) => {
+  // console.log(values);
   const store = useAuthStore();
   const router = useRouter();
   try {
-    const res = await store.login(values);
+    const res = await store.login({
+      email: values.email,
+      password: values.password,
+    });
     if (res) {
-      router.push('/dashboard')
+      router.push("/dashboard");
     }
   } catch (error: any) {
-    // api.error({
-    //   message: "Error",
-    //   description: error,
-    //   placement: "bottomRight",
-    // });
+    console.error(error);
+    toast({
+      title: "Error",
+      description: error.message,
+      variant: "destructive",
+    });
   }
-};
-
-const onFinishFailed = (errorInfo: any) => {
-  console.log(errorInfo);
-};
+});
 </script>
 
 <style scoped></style>

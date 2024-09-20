@@ -38,33 +38,12 @@
         <FormLabel>Password</FormLabel>
         <FormControl>
           <PasswordInput
-            type="password"
             placeholder="choose a strong password"
             v-bind="componentField"
           />
         </FormControl>
         <FormMessage />
       </FormItem>
-      <!-- <div class="text-sm text-gray-500 mb-4">
-        <ul>
-          <li class="flex items-center gap-2">
-            <Icon name="mdi:check" class="text-green-300" />
-            <span>At least 8 characters</span>
-          </li>
-          <li class="flex items-center gap-2">
-            <Icon name="mdi:check" class="text-green-300" />
-            <span>At least 1 uppercase</span>
-          </li>
-          <li class="flex items-center gap-2">
-            <Icon name="mdi:check" class="text-green-300" />
-            <span>At least 1 number</span>
-          </li>
-          <li class="flex items-center gap-2">
-            <Icon name="mdi:check" class="text-green-300" />
-            <span>At least 1 symbol</span>
-          </li>
-        </ul>
-      </div> -->
     </FormField>
 
     <!-- passwordConfirm -->
@@ -73,7 +52,6 @@
         <FormLabel>Confirm Password</FormLabel>
         <FormControl>
             <PasswordInput
-              type="password"
               placeholder="Re-type the password"
               v-bind="componentField"
               class="pr-10"
@@ -83,7 +61,11 @@
       </FormItem>
     </FormField>
 
-    <Button type="submit"> Submit </Button>
+    <Button class="mb-4" type="submit"> Submit </Button>
+
+    <div>
+      <NuxtLink href="/auth/login" class="underline text-sm">I Already have an account ?</NuxtLink>
+    </div>
   </form>
 </template>
 <script lang="ts" setup>

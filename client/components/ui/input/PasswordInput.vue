@@ -5,10 +5,15 @@ import { cn } from "~/libs/utils";
 import { Eye, EyeOff } from "lucide-vue-next";
 import { useFormField } from "../form/useFormField";
 
+defineOptions({
+  inheritAttrs: false,
+});
+
 const props = defineProps<{
   defaultValue?: string | number;
   modelValue?: string | number;
   class?: HTMLAttributes["class"];
+  placeholder?: string;
 }>();
 
 const emits = defineEmits<{
@@ -38,17 +43,18 @@ const togglePassword = () => (pwHidden.value = !pwHidden.value);
           props.class
         )
       "
+      v-bind="$attrs"
     />
     <span
       class="absolute end-0 inset-y-0 flex items-center justify-center w-10"
     >
-      <button
-        class="flex items-center justify-center w-full h-full"
+      <div
+        class="cursor-pointer flex items-center justify-center w-full h-full"
         @click="togglePassword"
       >
         <Eye v-if="pwHidden" :size="16" />
         <EyeOff v-else :size="16" />
-      </button>
+      </div>
     </span>
   </div>
 </template>
