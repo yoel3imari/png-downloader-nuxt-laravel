@@ -1,31 +1,12 @@
 import { tokenService } from "~/services/tokenService";
 import type { Credentials } from "~/libs/definitions";
-import { useStorage } from '@vueuse/core';
+import { useStorage } from "@vueuse/core";
 
-const USER_KEY = "user_info";
+export const USER_KEY = "user_info";
 
 export const useAuthStore = defineStore("auth", () => {
   const user = useStorage(USER_KEY, "");
   const { $api } = useNuxtApp();
-
-  const login = async ({ email, password }: Credentials) => {
-    try {
-      // get /sanctum/csrf-cookie => xrsf-token
-      const res = await $api.post("/login", { email, password });
-
-      if (res?.data.access_token) {
-        await tokenService.setToken(res.data.access_token);
-      }
-
-      if (res.data.user) {
-        user.value = res.data.user;
-      }
-
-      return true;
-    } catch (error: any) {
-      throw new Error(error);
-    }
-  };
 
   const register = async ({
     name,
@@ -37,13 +18,14 @@ export const useAuthStore = defineStore("auth", () => {
     password: string;
   }) => {
     try {
+      await $api.crsf();
       const res = await $api.post("/register", { name, email, password });
       if (res?.data.access_token) {
         await tokenService.setToken(res.data.access_token);
       }
 
       if (res.data.user) {
-        user.value = res.data.user;
+        setUser(res.data.user);
       }
 
       return true;
@@ -52,20 +34,72 @@ export const useAuthStore = defineStore("auth", () => {
     }
   };
 
-  const logout = async () => {
+  const login = async ({ email, password }: Credentials) => {
     try {
-      await $api.post("logout", {});
-      tokenService.removeToken();
-      user.clear();
+      // get /sanctum/csrf-cookie => xrsf-token
+      await $api.crsf();
+      const res = await $api.post("/login", { email, password });
+
+      if (res?.data.access_token) {
+        await tokenService.setToken(res.data.access_token);
+      }
+
+      if (res.data.user) {
+        setUser(res.data.user);
+      }
+
+      return true;
     } catch (error: any) {
       throw new Error(error);
     }
   };
 
+  const resetPassword = async ({ email }: {email: string}) => {
+    try {
+      const res = await $api.post("/forgot-password", { email });
+      //check if link sent or error
+      console.log(res);
+
+      return res;
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  };
+
+  const logout = async () => {
+    try {
+      await $api.post("logout", {});
+      purge();
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  };
+
+  const verifyToken = async () => {
+    try {
+      $api.get("verify-token");
+      return true;
+    } catch (error: any) {
+      purge();
+      throw new Error(error?.message);
+    }
+  };
+
+  const purge = () => {
+    tokenService.removeToken();
+    user.value = null;
+  };
+
+  const setUser = (data: any) => {
+    user.value = JSON.stringify(data);
+  };
+
   return {
     user,
-    login,
     register,
-    logout
+    login,
+    resetPassword,
+    logout,
+    verifyToken,
   };
 });

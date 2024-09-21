@@ -51,11 +51,11 @@
       <FormItem>
         <FormLabel>Confirm Password</FormLabel>
         <FormControl>
-            <PasswordInput
-              placeholder="Re-type the password"
-              v-bind="componentField"
-              class="pr-10"
-            />
+          <PasswordInput
+            placeholder="Re-type the password"
+            v-bind="componentField"
+            class="pr-10"
+          />
         </FormControl>
         <FormMessage />
       </FormItem>
@@ -64,7 +64,9 @@
     <Button class="mb-4" type="submit"> Submit </Button>
 
     <div>
-      <NuxtLink href="/auth/login" class="underline text-sm">I Already have an account ?</NuxtLink>
+      <NuxtLink href="/auth/login" class="underline text-sm"
+        >I Already have an account ?</NuxtLink
+      >
     </div>
   </form>
 </template>
@@ -105,8 +107,14 @@ const formSchema = toTypedSchema(
 );
 
 const form = useForm({
-  validationSchema: formSchema
-})
+  validationSchema: formSchema,
+  initialValues: {
+    name: "test",
+    email: "",
+    password: "12345678A;",
+    passwordConfirm: "12345678A;",
+  },
+});
 
 const { toast } = useToast();
 const onFinish = form.handleSubmit(async (values) => {
@@ -114,14 +122,12 @@ const onFinish = form.handleSubmit(async (values) => {
   const store = useAuthStore();
   const router = useRouter();
   try {
-    const res = await store.register({
+    await store.register({
       name: values.name,
       email: values.email,
       password: values.password,
     });
-    if (res) {
-      router.push("/dashboard");
-    }
+    await router.push("/dashboard");
   } catch (error: any) {
     console.error(error);
     toast({

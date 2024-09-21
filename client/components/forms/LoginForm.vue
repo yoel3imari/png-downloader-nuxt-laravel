@@ -65,6 +65,10 @@ const formSchema = toTypedSchema(
 
 const form = useForm({
   validationSchema: formSchema,
+  initialValues: {
+    email: "",
+    password: "12345678A;"
+  }
 });
 
 const { toast } = useToast();
@@ -73,13 +77,11 @@ const onFinish = form.handleSubmit(async (values) => {
   const store = useAuthStore();
   const router = useRouter();
   try {
-    const res = await store.login({
+    await store.login({
       email: values.email,
       password: values.password,
     });
-    if (res) {
-      router.push("/dashboard");
-    }
+    await router.push("/dashboard");
   } catch (error: any) {
     console.error(error);
     toast({

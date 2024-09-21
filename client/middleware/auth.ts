@@ -1,20 +1,30 @@
+import { useToast } from "~/components/ui/toast";
 import { tokenService } from "~/services/tokenService";
+import { USER_KEY } from "../stores/auth";
+import { useStorage } from "@vueuse/core";
 
 // const protectedRoutes = ["dashboard"];
 
 export default defineNuxtRouteMiddleware(async () => {
-  // if (protectedRoutes.includes(String(to.name))) {
-  // verify token
-  const token = await tokenService.getToken();
-  if (!token) {
+  if (!tokenService.hasToken()) {
     return navigateTo("/auth/login");
   }
-  
-  const { $api } = useNuxtApp();
-  const res = await $api.get("verifytoken");
-  
-  if (res.data) return;
-  
-  return navigateTo("/auth/login");
 
+  const { $api } = useNuxtApp();
+  try {
+    await $api.get("verify-token");
+    return;
+  } catch (error: any) {
+    // purge token and user
+    tokenService.removeToken();
+    const user = useStorage(USER_KEY, "");
+    user.value = null;
+
+    useToast().toast({
+      title: error?.message || "Unauthenticated",
+      description: "Login to get access to this place",
+      variant: "destructive",
+    });
+    return navigateTo("/auth/login");
+  }
 });

@@ -24,7 +24,7 @@ class ApiService {
       },
     });
 
-    this.crsf();
+    //this.crsf();
 
     // Optionally add interceptors
     this.api.interceptors.request.use(
@@ -57,13 +57,14 @@ class ApiService {
   }
 
   async crsf() {
-    if (this.api.defaults.headers["X-CSRF-TOKEN"]) return;
-    const { data } = await this.api.get("/csrf-token");
-    this.api.defaults.headers["X-CSRF-TOKEN"] = data.csrf_token;
+    // if (this.api.defaults.headers["X-CSRF-TOKEN"]) return;
+    await this.api.get("/sanctum/csrf-cookie", {
+      baseURL: process.env.API_BASE_URL || "http://127.0.0.1:8000"
+    });
   }
 
   async get(url: string, config?: AxiosRequestConfig): Promise<ApiResponse> {
-    this.crsf();
+    // this.crsf();
     const response = await this.api.get(url, config);
     return response.data;
   }
@@ -73,7 +74,7 @@ class ApiService {
     data: any,
     config?: AxiosRequestConfig
   ): Promise<ApiResponse> {
-    this.crsf();
+    // this.crsf();
     const response = await this.api.post(url, data, config);
     return response.data;
   }
@@ -83,13 +84,13 @@ class ApiService {
     data: any,
     config?: AxiosRequestConfig
   ): Promise<ApiResponse> {
-    this.crsf();
+    // this.crsf();
     const response = await this.api.put(url, data, config);
     return response.data;
   }
 
   async delete(url: string, config?: AxiosRequestConfig): Promise<ApiResponse> {
-    this.crsf();
+    // this.crsf();
     const response = await this.api.delete(url, config);
     return response.data;
   }
@@ -99,7 +100,7 @@ class ApiService {
     data: FormData,
     config?: AxiosRequestConfig
   ): Promise<ApiResponse> {
-    this.crsf();
+    // this.crsf();
     const configWithFile = {
       headers: {
         "Content-Type": "multipart/form-data",

@@ -36,10 +36,6 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
 
-Route::get('/verify-token', function () {
+Route::middleware('auth:sanctum')->get('/verify-token', function () {
     return \App\Services\ResponseService::success(true, "token verified");
-})->middleware('auth')->name('verification.token');
-
-Route::get('/csrf-token', function () {
-    return response()->json(['csrf_token' => csrf_token()]);
-});
+})->name('verification.token');

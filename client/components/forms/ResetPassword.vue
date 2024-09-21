@@ -1,11 +1,81 @@
 <template>
-<div></div>
+  <!-- register form -->
+  <form @submit="onFinish">
+    <!-- email -->
+    <FormField v-slot="{ componentField }" name="email">
+      <FormItem>
+        <FormLabel>Email</FormLabel>
+        <FormControl>
+          <Input
+            type="email"
+            placeholder="type your email to receive reset link"
+            v-bind="componentField"
+          />
+        </FormControl>
+        <FormMessage />
+      </FormItem>
+    </FormField>
+
+    <Button class="mb-4" type="submit"> Send Link </Button>
+
+    <div>
+      <NuxtLink href="/auth/sign-up" class="underline text-sm"
+        >I don't have an account ?</NuxtLink
+      >
+    </div>
+  </form>
 </template>
+<script lang="ts" setup>
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import Input from "@/components/ui/input/Input.vue";
+import Button from "@/components/ui/button/Button.vue";
+import * as z from "zod";
+import { toTypedSchema } from "@vee-validate/zod";
+import { useForm } from "vee-validate";
+import { useToast } from "../ui/toast";
 
-<script setup lang="ts">
+const formSchema = toTypedSchema(
+  z.object({
+    email: z.string().email(),
+  })
+);
 
+const form = useForm({
+  validationSchema: formSchema,
+  initialValues: {
+    email: "",
+  }
+});
+
+const { toast } = useToast();
+const onFinish = form.handleSubmit(async (values) => {
+  // console.log(values);
+  const store = useAuthStore();
+  const router = useRouter();
+  try {
+    const res = await store.resetPassword({
+      email: values.email,
+    });
+    toast({
+      title: "Link Sent",
+      description: res.data.status,
+    })
+    await router.push("/dashboard");
+  } catch (error: any) {
+    console.error(error);
+    toast({
+      title: "Error",
+      description: error.message,
+      variant: "destructive",
+    });
+  }
+});
 </script>
 
-<style lang="scss">
-
-</style>
+<style scoped></style>
