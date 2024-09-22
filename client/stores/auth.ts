@@ -54,12 +54,38 @@ export const useAuthStore = defineStore("auth", () => {
     }
   };
 
-  const resetPassword = async ({ email }: {email: string}) => {
+  const sendResetLink = async ({ email }: { email: string }) => {
     try {
       const res = await $api.post("/forgot-password", { email });
       //check if link sent or error
       console.log(res);
 
+      return res;
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  };
+
+  const resetPassword = async ({
+    token,
+    email,
+    password,
+    password_confirmation,
+  }: {
+    token: string;
+    email: string;
+    password: string;
+    password_confirmation: string
+  }) => {
+    try {
+      const res = await $api.post("reset-password", {
+        token,
+        email,
+        password,
+        password_confirmation,
+      });
+      console.log(res);
+      
       return res;
     } catch (error: any) {
       throw new Error(error);
@@ -98,6 +124,7 @@ export const useAuthStore = defineStore("auth", () => {
     user,
     register,
     login,
+    sendResetLink,
     resetPassword,
     logout,
     verifyToken,

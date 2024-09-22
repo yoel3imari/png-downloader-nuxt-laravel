@@ -3,16 +3,15 @@
     <h1 class="text-3xl font-extrabold">PNG Downloader</h1>
     <p class="font-medium">Enter your email to receive reset link</p>
   </div>
-  <reset-password />
+  <SendResetLinkForm />
 </template>
 
 <script setup lang="ts">
-import ResetPassword from '~/components/forms/ResetPassword.vue';
+import SendResetLinkForm from "~/components/forms/SendResetLinkForm.vue";
 definePageMeta({
-  layout: "auth"
-})
+  layout: "auth",
+  middleware: "guest"
+});
 </script>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

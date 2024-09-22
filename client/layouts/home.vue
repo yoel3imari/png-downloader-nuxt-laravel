@@ -1,8 +1,8 @@
 <template>
   <div class="bg-gray-100 min-h-screen h-full">
     <slot />
-    <TheFooter></TheFooter>
   </div>
+  <TheFooter></TheFooter>
 </template>
 
 <script setup lang="ts">

@@ -59,7 +59,7 @@ const onFinish = form.handleSubmit(async (values) => {
   const store = useAuthStore();
   const router = useRouter();
   try {
-    const res = await store.resetPassword({
+    const res = await store.sendResetLink({
       email: values.email,
     });
     toast({

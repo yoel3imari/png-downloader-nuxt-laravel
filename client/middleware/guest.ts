@@ -1,10 +1,14 @@
 import { tokenService } from "~/services/tokenService"
 
-// only for unauthenticated users 
-const authRoutes = ["/auth/login", "/auth/sign-up", "/auth/forgot-password"]
+// only for unauthenticated users (guests)
+const authRoutes = ["auth-login", "auth-sign-up", "auth-reset-password-token", "auth-forgot-password"]
 
 export default defineNuxtRouteMiddleware((to) => {
-  if( authRoutes.includes(to.path) && tokenService.hasToken() ) {
+  console.log(to, "guest");
+  
+  if( authRoutes.includes(String(to.name)) && tokenService.hasToken() ) {
     return navigateTo('/dashboard')
   }
+
+  return;
 })

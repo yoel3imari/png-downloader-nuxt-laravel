@@ -4,8 +4,8 @@
     <main class="h-full bg-gray-100 px-2 md:px-4 lg:px-6 py-4">
       <slot />
     </main>
-    <TheFooter></TheFooter>
   </div>
+  <TheFooter></TheFooter>
 </template>
 
 <script setup lang="ts">

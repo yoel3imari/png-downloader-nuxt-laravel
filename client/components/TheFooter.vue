@@ -1,5 +1,5 @@
 <template>
-  <footer class="pt-6 pb-4 px-2 md:px-6 bg-primary text-secondary">
+  <footer class=" w-full  pt-6 pb-4 px-2 md:px-6 bg-primary text-secondary">
     <div>
       <ul class="w-full flex flex-col items-start gap-2">
         <li v-for="r in routes" :key="r.name">
@@ -7,7 +7,7 @@
         </li>
       </ul>
     </div>
-    <span class="font-bold text-neutral">{{ year }}&copy;PNGDownloader</span>
+    <div class="pt-8 font-bold text-neutral text-center ">{{ year }}&copy;PNGDownloader</div>
   </footer>
 </template>
 

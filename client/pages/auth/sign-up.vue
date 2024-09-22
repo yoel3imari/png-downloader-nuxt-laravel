@@ -9,7 +9,8 @@
 <script setup lang="ts">
 import RegisterForm from '~/components/forms/RegisterForm.vue';
 definePageMeta({
-  layout: "auth"
+  layout: "auth",
+  middleware: "guest"
 })
 </script>
 

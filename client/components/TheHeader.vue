@@ -31,7 +31,7 @@
 
 
       <div id="options" class="flex items-center gap-4">
-        <NuxtLink href="/auth/sin-up" >
+        <NuxtLink href="/auth/sign-up" >
           <span class="tw-btn min-w-[100px] flex items-center justify-center">
             <Icon name="mdi:plus" class="text-xl"/>
             <span class="w-full text-center text-sm">Upload</span>
@@ -43,7 +43,6 @@
 </template>
 
 <script setup lang="ts">
-import HeaderSearch from './HeaderSearch.vue';
 
 </script>
 
