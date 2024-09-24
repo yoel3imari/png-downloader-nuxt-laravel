@@ -43,11 +43,11 @@ class ApiService {
 
     this.api.interceptors.response.use(
       (response) => {
-        console.log(response, "apiService Intercept Response");
+        // console.log(response, "apiService Intercept Response");
         return response;
       },
       (error) => {
-        console.log(error, "apiService Intercept Error");
+        // console.log(error, "apiService Intercept Error");
         return Promise.reject(ErrorService.handleError(error));
       }
     );

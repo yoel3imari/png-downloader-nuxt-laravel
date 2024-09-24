@@ -2,9 +2,15 @@
 
 <template>
   <!-- sidebar -->
-  <!-- topbar -->
-  <!-- main -->
   <div></div>
+  <div>
+    <!-- topbar -->
+    <nav></nav>
+    <!-- main -->
+    <main>
+      <slot />
+    </main>
+  </div>
 </template>
 
 <style lang="scss"></style>

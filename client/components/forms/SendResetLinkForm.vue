@@ -1,6 +1,6 @@
 <template>
   <!-- register form -->
-  <form @submit="onFinish">
+  <form @submit="execute">
     <!-- email -->
     <FormField v-slot="{ componentField }" name="email">
       <FormItem>
@@ -16,7 +16,10 @@
       </FormItem>
     </FormField>
 
-    <Button class="mb-4" type="submit"> Send Link </Button>
+    <Button class="mb-4" type="submit"> 
+      <span v-if="isLoading">...</span>
+      <span v-else>Send Link</span>  
+    </Button>
 
     <div>
       <NuxtLink href="/auth/sign-up" class="underline text-sm"
@@ -50,7 +53,7 @@ const form = useForm({
   validationSchema: formSchema,
   initialValues: {
     email: "",
-  }
+  },
 });
 
 const { toast } = useToast();
@@ -58,24 +61,16 @@ const onFinish = form.handleSubmit(async (values) => {
   // console.log(values);
   const store = useAuthStore();
   const router = useRouter();
-  try {
-    const res = await store.sendResetLink({
-      email: values.email,
-    });
-    toast({
-      title: "Link Sent",
-      description: res.data.status,
-    })
-    await router.push("/dashboard");
-  } catch (error: any) {
-    console.error(error);
-    toast({
-      title: "Error",
-      description: error.message,
-      variant: "destructive",
-    });
-  }
+  const res = await store.sendResetLink({
+    email: values.email,
+  });
+  toast({
+    title: "Link Sent",
+    description: res.data.status,
+  });
+  await router.push("/dashboard");
 });
+const { isLoading, execute } = useQuery(onFinish);
 </script>
 
 <style scoped></style>

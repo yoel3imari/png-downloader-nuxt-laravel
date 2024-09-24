@@ -75,7 +75,7 @@ export const useAuthStore = defineStore("auth", () => {
     token: string;
     email: string;
     password: string;
-    password_confirmation: string
+    password_confirmation: string;
   }) => {
     try {
       const res = await $api.post("reset-password", {
@@ -85,7 +85,7 @@ export const useAuthStore = defineStore("auth", () => {
         password_confirmation,
       });
       console.log(res);
-      
+
       return res;
     } catch (error: any) {
       throw new Error(error);
@@ -95,9 +95,13 @@ export const useAuthStore = defineStore("auth", () => {
   const logout = async () => {
     try {
       await $api.post("logout", {});
-      purge();
+      return true;
     } catch (error: any) {
-      throw new Error(error);
+      // Handle the error, e.g., display a message to the user
+      console.error("Error logging out:", error);
+    } finally {
+      // Call the `purge` function to clear any user data or session information
+      purge();
     }
   };
 
@@ -113,7 +117,7 @@ export const useAuthStore = defineStore("auth", () => {
 
   const purge = () => {
     tokenService.removeToken();
-    user.value = null;
+    localStorage.removeItem(USER_KEY);
   };
 
   const setUser = (data: any) => {

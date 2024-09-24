@@ -5,7 +5,9 @@
     <div class="flex items-center justify-between w-full">
       <div id="logo" class="w-max">
         <NuxtLink href="/"
-          ><h1 class="text-2xl font-extrabold  text-nowrap">PNG Downloader</h1></NuxtLink
+          ><h1 class="text-2xl font-extrabold text-nowrap">
+            PNG Downloader
+          </h1></NuxtLink
         >
       </div>
 
@@ -29,11 +31,10 @@
         </ul>
       </div>
 
-
       <div id="options" class="flex items-center gap-4">
-        <NuxtLink href="/auth/sign-up" >
+        <NuxtLink href="/auth/sign-up">
           <span class="tw-btn min-w-[100px] flex items-center justify-center">
-            <Icon name="mdi:plus" class="text-xl"/>
+            <Icon name="mdi:plus" class="text-xl" />
             <span class="w-full text-center text-sm">Upload</span>
           </span>
         </NuxtLink>
@@ -43,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-
+// const store = useAuthStore();
 </script>
 
 <style scoped></style>

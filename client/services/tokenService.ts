@@ -42,7 +42,7 @@ export const tokenService = {
    * 
    */
   removeToken(): void {
-    tokenStorage.value = ''
+    localStorage.removeItem(TOKEN_KEY)
   },
 
   /**

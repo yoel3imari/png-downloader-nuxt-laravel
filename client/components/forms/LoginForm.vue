@@ -1,6 +1,6 @@
 <template>
   <!-- register form -->
-  <form @submit="onFinish">
+  <form @submit.prevent="execute">
     <!-- email -->
     <FormField v-slot="{ componentField }" name="email">
       <FormItem>
@@ -21,17 +21,19 @@
       <FormItem>
         <FormLabel>Password</FormLabel>
         <FormControl>
-          <PasswordInput
-            placeholder="************"
-            v-bind="componentField"
-          />
+          <PasswordInput placeholder="************" v-bind="componentField" />
         </FormControl>
         <FormMessage />
-        <NuxtLink href="/auth/forgot-password" class="underline text-sm">Forgot your password ?</NuxtLink>
+        <NuxtLink href="/auth/forgot-password" class="underline text-sm"
+          >Forgot your password ?</NuxtLink
+        >
       </FormItem>
     </FormField>
 
-    <Button class="mb-4" type="submit"> Submit </Button>
+    <Button class="mb-4" type="submit">
+      <span v-if="isLoading">...</span>
+      <span v-else>Submit</span>
+    </Button>
 
     <div>
       <NuxtLink href="/auth/sign-up" class="underline text-sm"
@@ -55,6 +57,7 @@ import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
 import { useToast } from "../ui/toast";
 import PasswordInput from "../ui/input/PasswordInput.vue";
+import { useQuery } from "@/composables/useQuery";
 
 const formSchema = toTypedSchema(
   z.object({
@@ -67,30 +70,21 @@ const form = useForm({
   validationSchema: formSchema,
   initialValues: {
     email: "",
-    password: "12345678A;"
-  }
+    password: "12345678A;",
+  },
 });
 
-const { toast } = useToast();
 const onFinish = form.handleSubmit(async (values) => {
-  // console.log(values);
   const store = useAuthStore();
+  await store.login({
+    email: values.email,
+    password: values.password,
+  });
   const router = useRouter();
-  try {
-    await store.login({
-      email: values.email,
-      password: values.password,
-    });
-    await router.push("/dashboard");
-  } catch (error: any) {
-    console.error(error);
-    toast({
-      title: "Error",
-      description: error.message,
-      variant: "destructive",
-    });
-  }
+  await router.push("/dashboard");
 });
+
+const { isLoading, execute } = useQuery(onFinish);
 </script>
 
 <style scoped></style>

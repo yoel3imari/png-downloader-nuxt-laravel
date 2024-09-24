@@ -1,7 +1,6 @@
 <template>
   <!-- register form -->
-  <form @submit="onFinish">
-
+  <form @submit="execute">
     <!-- password -->
     <FormField v-slot="{ componentField }" name="password">
       <FormItem>
@@ -31,8 +30,10 @@
       </FormItem>
     </FormField>
 
-    <Button class="mb-4" type="submit"> Submit </Button>
-
+    <Button class="mb-4" type="submit">
+      <span v-if="isLoading">...</span>
+      <span v-else>Reset Password</span>
+    </Button>
   </form>
 </template>
 <script lang="ts" setup>
@@ -47,22 +48,21 @@ import Button from "@/components/ui/button/Button.vue";
 import * as z from "zod";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
-import { useToast } from "../ui/toast";
 import PasswordInput from "../ui/input/PasswordInput.vue";
 
 definePageMeta({
   layout: "auth",
-  middleware: "guest"
-})
+  middleware: "guest",
+});
 
-const email = ref('');
-const token = ref('');
+const email = ref("");
+const token = ref("");
 const route = useRoute();
 onMounted(() => {
   // get token and email from url
   email.value = route.query.email?.toString() || "";
   token.value = route.query.token?.toString() || "";
-})
+});
 
 const formSchema = toTypedSchema(
   z
@@ -89,28 +89,20 @@ const form = useForm({
   },
 });
 
-const { toast } = useToast();
 const onFinish = form.handleSubmit(async (values) => {
   // console.log(values);
   const store = useAuthStore();
   const router = useRouter();
-  try {
-    await store.resetPassword({
-      token: token.value,
-      email: email.value,
-      password: values.password,
-      password_confirmation: values.passwordConfirm
-    });
-    await router.push("/login");
-  } catch (error: any) {
-    console.error(error);
-    toast({
-      title: "Error",
-      description: error.message,
-      variant: "destructive",
-    });
-  }
+
+  await store.resetPassword({
+    token: token.value,
+    email: email.value,
+    password: values.password,
+    password_confirmation: values.passwordConfirm,
+  });
+  await router.push("/login");
 });
+const { isLoading, execute } = useQuery(onFinish);
 </script>
 
 <style scoped></style>

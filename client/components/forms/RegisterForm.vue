@@ -1,6 +1,6 @@
 <template>
   <!-- register form -->
-  <form @submit="onFinish">
+  <form @submit="execute">
     <!-- name -->
     <FormField v-slot="{ componentField }" name="name">
       <FormItem>
@@ -61,7 +61,10 @@
       </FormItem>
     </FormField>
 
-    <Button class="mb-4" type="submit"> Submit </Button>
+    <Button class="mb-4" type="submit">
+      <span v-if="isLoading">...</span>
+      <span v-else>Submit</span>
+    </Button>
 
     <div>
       <NuxtLink href="/auth/login" class="underline text-sm"
@@ -84,8 +87,8 @@ import Button from "@/components/ui/button/Button.vue";
 import * as z from "zod";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
-import { useToast } from "../ui/toast";
 import PasswordInput from "../ui/input/PasswordInput.vue";
+import { useQuery } from "../../composables/useQuery";
 
 const formSchema = toTypedSchema(
   z
@@ -116,27 +119,19 @@ const form = useForm({
   },
 });
 
-const { toast } = useToast();
 const onFinish = form.handleSubmit(async (values) => {
   // console.log(values);
   const store = useAuthStore();
+  await store.register({
+    name: values.name,
+    email: values.email,
+    password: values.password,
+  });
   const router = useRouter();
-  try {
-    await store.register({
-      name: values.name,
-      email: values.email,
-      password: values.password,
-    });
-    await router.push("/dashboard");
-  } catch (error: any) {
-    console.error(error);
-    toast({
-      title: "Error",
-      description: error.message,
-      variant: "destructive",
-    });
-  }
+  await router.push("/dashboard");
 });
+
+const { isLoading, execute } = useQuery(onFinish);
 </script>
 
 <style scoped></style>
