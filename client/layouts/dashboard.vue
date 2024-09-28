@@ -1,8 +1,10 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import TheSidebar from "~/components/layouts/TheSidebar.vue";
+</script>
 
 <template>
   <!-- sidebar -->
-  <div></div>
+  <TheSidebar />
   <div>
     <!-- topbar -->
     <nav></nav>
