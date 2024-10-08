@@ -1,17 +1,31 @@
 <script setup lang="ts">
 import TheSidebar from "~/components/layouts/TheSidebar.vue";
+import { useThemeStore } from "../stores/theme";
+const themeStore = useThemeStore();
 </script>
 
 <template>
-  <!-- sidebar -->
-  <TheSidebar />
-  <div>
-    <!-- topbar -->
-    <nav></nav>
-    <!-- main -->
-    <main>
-      <slot />
-    </main>
+  <div
+    class="grid grid-cols-1 -translate-x-full lg:translate-x-0 transition-[width] ease-in-out duration-300"
+    :class="`${
+      themeStore.isdashboardSidebarWide
+        ? 'md:grid-cols-[16rem_1fr]'
+        : 'md:grid-cols-[4rem_1fr]'
+    }`"
+  >
+    <!-- sidebar -->
+    <TheSidebar />
+    <div>
+      <!-- topbar -->
+      <nav></nav>
+      <!-- main -->
+      <main>
+        <slot />
+        <div>
+          <button @click="themeStore.toggleDashboardSidebar">toggle</button>
+        </div>
+      </main>
+    </div>
   </div>
 </template>
 
