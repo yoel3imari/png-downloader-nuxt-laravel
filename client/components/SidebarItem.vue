@@ -12,7 +12,7 @@
     </span>
     <span
       :class="`${
-        themeStore.isdashboardSidebarWide && isParent ? 'block' : 'hidden'
+        themeStore.isdashboardSidebarWide || !item.isRoot ? 'block' : 'hidden'
       }`"
       class="flex-1 font-semibold text-start transition-transform ease-in-out duration-300"
       >{{ item.label }}</span
@@ -23,9 +23,8 @@
 <script setup lang="ts">
 import type { MenuLink } from "~/libs/menus";
 
-const { item, isParent = true, onClick } = defineProps<{
+const { item, onClick } = defineProps<{
   item: MenuLink;
-  isParent?: boolean;
   onClick?: () => any
 }>();
 const themeStore = useThemeStore();
@@ -37,7 +36,7 @@ const handleClick = async () => {
     await onClick();
   }
   console.log(item.href);
-  return navigateTo({path: item.href, force: true, replace: true});
+  return navigateTo(item.href);
 }
 
 </script>

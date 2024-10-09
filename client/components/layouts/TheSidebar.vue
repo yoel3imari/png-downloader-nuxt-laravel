@@ -1,9 +1,9 @@
 <template>
   <aside
     class="hidden md:flex md:flex-col h-screen border-r pb-2"
-    @mouseover="openSidebarOnHover"
-    @mouseleave="closeSidebarOnHover"
-  >
+    >
+    <!-- @mouseover="openSidebarOnHover"
+    @mouseleave="closeSidebarOnHover" -->
     <div
       id="header"
       class="p-4 h-16 flex items-center transition-transform ease-in-out duration-300"

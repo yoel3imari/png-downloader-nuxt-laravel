@@ -4,7 +4,7 @@
     <!-- wide -->
     <!-- when sidebar is wide display as accordions -->
     <Accordion
-      v-if="themeStore.isdashboardSidebarWide"
+      v-if="themeStore.isdashboardSidebarWide || !item.isRoot"
       type="single"
       class="w-full border-none"
       collapsible
@@ -24,7 +24,14 @@
     <!-- short -->
     <!-- when sidebar is minimal show as popovers -->
     <!-- show just parrent for now -->
-    <SidebarItem v-else :item="item" />
+    <Popover v-else>
+      <PopoverTrigger class="w-full"> 
+        <SidebarItem :item="item" />
+      </PopoverTrigger>
+      <PopoverContent side="left" align="start">
+        <SidebarList v-for="(m, n) in item.children" :key="n" :item="m" />
+      </PopoverContent>
+    </Popover>
   </template>
   <!-- no children -->
   <SidebarItem v-else :item="item" />

@@ -17,6 +17,7 @@ export type MenuLink = {
   target?: string;
   customClass?: string;
   hasChildren: boolean;
+  isRoot?: boolean; 
   children?: MenuLink[];
 };
 
@@ -26,6 +27,7 @@ export const dashboardSidebarMenu: MenuLink[] = [
     label: "Dashboard",
     icon: Layout,
     customClass: "text-sky-900",
+    isRoot: true,
     hasChildren: false,
   },
   {
@@ -33,6 +35,7 @@ export const dashboardSidebarMenu: MenuLink[] = [
     label: "Users",
     icon: User,
     customClass: "text-rose-900",
+    isRoot: true,
     hasChildren: true,
     children: [
       {
@@ -108,6 +111,7 @@ export const dashboardSidebarMenu: MenuLink[] = [
     icon: DollarSign,
     customClass: "text-purple-900",
     hasChildren: false,
+    isRoot: true,
   },
   {
     href: "/auth/login",
@@ -115,5 +119,6 @@ export const dashboardSidebarMenu: MenuLink[] = [
     icon: LogOut,
     customClass: "text-green-900",
     hasChildren: false,
+    isRoot: true,
   },
 ];
