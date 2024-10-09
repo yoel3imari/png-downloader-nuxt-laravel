@@ -117,7 +117,8 @@ export const useAuthStore = defineStore("auth", () => {
 
   const purge = () => {
     tokenService.removeToken();
-    localStorage.removeItem(USER_KEY);
+    // localStorage.removeItem(USER_KEY);
+    user.value = null
   };
 
   const setUser = (data: any) => {

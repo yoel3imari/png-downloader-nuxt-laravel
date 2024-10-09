@@ -2,6 +2,9 @@
 import TheSidebar from "~/components/layouts/TheSidebar.vue";
 import { useThemeStore } from "../stores/theme";
 const themeStore = useThemeStore();
+definePageMeta({
+  middleware: "auth",
+});
 </script>
 
 <template>

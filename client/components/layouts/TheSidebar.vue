@@ -11,7 +11,7 @@
         themeStore.isdashboardSidebarWide ? 'translate-x-0' : 'translate-x-1'
       "
     >
-      <NuxtLink class="flex items-center gap-2 text-center font-bold text-xl">
+      <NuxtLink class="flex items-center gap-2 font-bold text-xl">
         <span>
           <Aperture />
         </span>

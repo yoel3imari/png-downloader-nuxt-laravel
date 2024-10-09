@@ -9,8 +9,7 @@
 <script setup lang="ts">
 import SendResetLinkForm from "~/components/forms/SendResetLinkForm.vue";
 definePageMeta({
-  layout: "auth",
-  middleware: "guest"
+  layout: "auth"
 });
 </script>
 

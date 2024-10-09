@@ -110,7 +110,7 @@ export const dashboardSidebarMenu: MenuLink[] = [
     hasChildren: false,
   },
   {
-    href: "#",
+    href: "/auth/login",
     label: "Logout",
     icon: LogOut,
     customClass: "text-green-900",

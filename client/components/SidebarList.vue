@@ -39,12 +39,6 @@ import {
 } from "@/components/ui/accordion";
 import type { MenuLink } from "~/libs/menus";
 import SidebarItem from "./SidebarItem.vue";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuItem,
-} from "./ui/dropdown-menu";
 
 defineProps<{
   item: MenuLink;

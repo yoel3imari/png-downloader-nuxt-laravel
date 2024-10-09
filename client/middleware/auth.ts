@@ -6,12 +6,11 @@ import { useStorage } from "@vueuse/core";
 // const protectedRoutes = ["dashboard"];
 
 export default defineNuxtRouteMiddleware(async () => {
-  if (!tokenService.hasToken()) {
-    return navigateTo("/auth/login");
-  }
-
-  const { $api } = useNuxtApp();
   try {
+    if (!tokenService.hasToken()) {
+      return navigateTo("/auth/login");
+    }
+    const { $api } = useNuxtApp();
     await $api.get("verify-token");
     return;
   } catch (error: any) {
