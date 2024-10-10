@@ -1,44 +1,45 @@
 <template>
-  <aside
-    class="hidden md:flex md:flex-col h-screen border-r pb-2"
-    >
+  <aside class="hidden md:flex md:flex-col h-screen border-r">
     <!-- @mouseover="openSidebarOnHover"
     @mouseleave="closeSidebarOnHover" -->
-    <div
-      id="header"
-      class="p-4 h-16 flex items-center transition-transform ease-in-out duration-300"
-      :class="
-        themeStore.isdashboardSidebarWide ? 'translate-x-0' : 'translate-x-1'
-      "
-    >
-      <NuxtLink class="flex items-center gap-2 font-bold text-xl">
-        <span>
-          <Aperture />
-        </span>
+    <div class="h-16 transition-all ease-in-out duration-300">
+      <NuxtLink class="font-bold text-xl flex h-full w-full">
+        <div class="w-16 min-w-16 h-full">
+          <div class="h-full w-16 flex items-center justify-center">
+            <Aperture :size="32" />
+          </div>
+        </div>
         <h1
-          class="whitespace-nowrap transition-[transform,opacity,display] ease-in-out duration-300"
+          class="whitespace-nowrap transition-all ease-in-out duration-300 flex items-center justify-start w-full"
           :class="
             themeStore.isdashboardSidebarWide
-              ? 'translate-x-0 opacity-100'
-              : '-translate-x-96 opacity-0 hidden'
+              ? 'block opacity-100'
+              : 'opacity-0 w-0 hidden'
           "
         >
           PNG Downloader
         </h1>
-        
       </NuxtLink>
     </div>
     <!-- body -->
-    <div id="body" class="border-t h-full overflow-auto">
+    <div class="border-t flex-grow overflow-y-auto overflow-x-hidden bg-white">
       <ul class="">
-        <li v-for="(item, i) in bodyItems" :key="i" class="">
+        <li v-for="(item, i) in bodyItems" :key="i" class="h-10">
           <SidebarList :item="item" />
         </li>
       </ul>
     </div>
     <!-- footer -->
-    <div v-if="footerItem" id="footer" class="px-2 pt-2 border-t">
-      <SidebarItem :item="footerItem" :is-parent="true" :on-click="authStore.logout" />
+    <div
+      v-if="footerItem"
+      class="p-2 h-16 border-t flex items-center justify-center"
+    >
+      <!--TODO: replace with user avatar -->
+      <SidebarItem
+        :item="footerItem"
+        :is-parent="true"
+        :on-click="authStore.logout"
+      />
     </div>
   </aside>
 </template>
@@ -48,9 +49,9 @@ import { dashboardSidebarMenu } from "~/libs/menus";
 import SidebarList from "../SidebarList.vue";
 import { useThemeStore } from "../../stores/theme";
 import { Aperture } from "lucide-vue-next";
-import { useAuthStore } from '../../stores/auth';
+import { useAuthStore } from "../../stores/auth";
 const themeStore = useThemeStore();
-const authStore = useAuthStore()
+const authStore = useAuthStore();
 const bodyItems = computed(() => dashboardSidebarMenu.slice(0, -1));
 const footerItem = computed(
   () => dashboardSidebarMenu[dashboardSidebarMenu.length - 1]

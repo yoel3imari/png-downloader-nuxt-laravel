@@ -9,7 +9,7 @@ definePageMeta({
 
 <template>
   <div
-    class="grid grid-cols-1 -translate-x-full lg:translate-x-0 transition-[width] ease-in-out duration-300"
+    class="grid grid-cols-1 transition-[grid-template-columns] ease-in-out duration-200"
     :class="`${
       themeStore.isdashboardSidebarWide
         ? 'md:grid-cols-[16rem_1fr]'

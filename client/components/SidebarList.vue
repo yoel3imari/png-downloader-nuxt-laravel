@@ -11,7 +11,7 @@
       default-value="item"
     >
       <AccordionItem :value="item.label">
-        <AccordionSplittedTrigger class="hover:bg-secondary p-0 pr-4">
+        <AccordionSplittedTrigger class="hover:bg-secondary">
           <SidebarItem :item="item" />
         </AccordionSplittedTrigger>
         <AccordionContent class="ps-4 border-s">
@@ -43,7 +43,7 @@
         side="left"
         :side-offset="5"
         align="start"
-        class="w-fit p-1 rounded-none"
+        class="w-fit p-0 rounded-none"
       >
         <SidebarList v-for="(m, n) in item.children" :key="n" :item="m" />
       </PopoverContent>

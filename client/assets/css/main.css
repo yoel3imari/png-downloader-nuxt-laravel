@@ -70,7 +70,7 @@
 
 @layer base {
   *, *::after, *::before {
-    @apply border-border box-border m-0 p-0;
+    @apply border-border box-border m-0 p-0 font-['Lato'];
   }
   html,
   #__nuxt {

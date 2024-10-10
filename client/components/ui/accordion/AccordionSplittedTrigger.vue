@@ -20,19 +20,20 @@ const delegatedProps = computed(() => {
 </script>
 
 <template>
-  <AccordionHeader class="flex">
+  <AccordionHeader class="flex w-full">
+    <div class="flex-1 border-e">
+        <slot />
+      </div>
     <AccordionTrigger
       v-bind="delegatedProps"
       :class="
         cn(
-          'flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180',
+          'w-10 h-10 flex items-center justify-center py-4 font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180',
           props.class
         )
       "
     >
-      <div class="flex-1 border-e me-4">
-        <slot />
-      </div>
+      
       <!-- <div class="border-s h-full w-8 flex items-center justify-end"> -->
         <slot name="icon">
           <ChevronDown

@@ -34,7 +34,10 @@ export default defineNuxtConfig({
   },
   googleFonts: {
     families: {
-      "Noto Sans": true,
+      "Lato": true,
+      "Poppins": true,
+      "Roboto": true,
+      "Open Sans": true
     },
   },
   shadcn: {
