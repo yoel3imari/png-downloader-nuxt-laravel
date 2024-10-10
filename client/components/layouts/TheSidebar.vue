@@ -30,8 +30,8 @@
     </div>
     <!-- body -->
     <div id="body" class="border-t h-full overflow-auto">
-      <ul class="px-2 py-1">
-        <li v-for="(item, i) in bodyItems" :key="i" class="py-1">
+      <ul class="">
+        <li v-for="(item, i) in bodyItems" :key="i" class="">
           <SidebarList :item="item" />
         </li>
       </ul>
@@ -56,19 +56,19 @@ const footerItem = computed(
   () => dashboardSidebarMenu[dashboardSidebarMenu.length - 1]
 );
 
-const openSidebarOnHover = () => {
-  if (!themeStore.isdashboardSidebarWide && !themeStore.isHovered) {
-    themeStore.isHovered = true;
-    themeStore.openDashboardSidebar();
-  }
-};
+// const openSidebarOnHover = () => {
+//   if (!themeStore.isdashboardSidebarWide && !themeStore.isHovered) {
+//     themeStore.isHovered = true;
+//     themeStore.openDashboardSidebar();
+//   }
+// };
 
-const closeSidebarOnHover = () => {
-  if (themeStore.isdashboardSidebarWide && themeStore.isHovered) {
-    themeStore.isHovered = false;
-    themeStore.closeDashboardSidebar();
-  }
-};
+// const closeSidebarOnHover = () => {
+//   if (themeStore.isdashboardSidebarWide && themeStore.isHovered) {
+//     themeStore.isHovered = false;
+//     themeStore.closeDashboardSidebar();
+//   }
+// };
 </script>
 
 <style lang="scss">

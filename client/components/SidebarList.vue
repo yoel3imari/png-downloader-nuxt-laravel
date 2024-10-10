@@ -4,16 +4,14 @@
     <!-- wide -->
     <!-- when sidebar is wide display as accordions -->
     <Accordion
-      v-if="themeStore.isdashboardSidebarWide || !item.isRoot"
+      v-if="themeStore.isdashboardSidebarWide"
       type="single"
       class="w-full border-none"
       collapsible
       default-value="item"
     >
       <AccordionItem :value="item.label">
-        <AccordionSplittedTrigger
-          class="hover:bg-secondary rounded-lg p-0 pr-4"
-        >
+        <AccordionSplittedTrigger class="hover:bg-secondary p-0 pr-4">
           <SidebarItem :item="item" />
         </AccordionSplittedTrigger>
         <AccordionContent class="ps-4 border-s">
@@ -24,11 +22,29 @@
     <!-- short -->
     <!-- when sidebar is minimal show as popovers -->
     <!-- show just parrent for now -->
-    <Popover v-else>
-      <PopoverTrigger class="w-full"> 
+    <Popover v-else :open="isOpen" ref="popoverContent">
+      <PopoverTrigger
+        class="w-full relative"
+        @mouseover="() => (isOpen = true)"
+        @click="
+          (e) => {
+            e.preventDefault();
+            // if (item.isRoot)
+            isOpen = false;
+            return navigateTo(item.href);
+          }
+        "
+      >
+        <div class="popover-flesh"></div>
         <SidebarItem :item="item" />
       </PopoverTrigger>
-      <PopoverContent side="left" align="start">
+      <PopoverContent
+        v-click-outside="() => (isOpen = false)"
+        side="left"
+        :side-offset="5"
+        align="start"
+        class="w-fit p-1 rounded-none"
+      >
         <SidebarList v-for="(m, n) in item.children" :key="n" :item="m" />
       </PopoverContent>
     </Popover>
@@ -44,13 +60,35 @@ import {
   AccordionItem,
   AccordionSplittedTrigger,
 } from "@/components/ui/accordion";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
 import type { MenuLink } from "~/libs/menus";
 import SidebarItem from "./SidebarItem.vue";
+import { onClickOutside } from "@vueuse/core";
 
 defineProps<{
   item: MenuLink;
 }>();
 const themeStore = useThemeStore();
+const isOpen = ref(false);
+// const popover = useTemplateRef("popoverContent");
+const popoverContent = ref(null);
+
+onClickOutside(popoverContent, (e: MouseEvent) => {
+  e.preventDefault();
+  isOpen.value = false;
+});
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.popover-flesh::after {
+  content: "\203A";
+  position: absolute;
+  top: 8px;
+  right: 4px;
+  color: var(--primary)
+}
+</style>

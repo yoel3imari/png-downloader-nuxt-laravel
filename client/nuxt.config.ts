@@ -22,8 +22,9 @@ export default defineNuxtConfig({
     "@vueuse/nuxt",
     "@nuxt/icon",
     "shadcn-nuxt",
+    '@vueuse/nuxt',
   ],
-  plugins: ["~/plugins/axios"],
+  plugins: ["~/plugins/axios", '~/plugins/v-click-outside'],
   css: ["~/assets/css/main.css"],
   postcss: {
     plugins: {
