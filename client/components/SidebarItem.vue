@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="`${item.customClass || ''} ${isActive ? 'bg-secondary' : ''}`"
+    :class="`${item.customClass || ''} ${isItemActive(item, route.path) ? 'bg-secondary' : ''}`"
     class="h-10 w-full flex items-center justify-start hover:bg-secondary cursor-pointer transition-all duration-300 ease-in-out"
     @click="handleClick"
   >
@@ -29,6 +29,7 @@
 
 <script setup lang="ts">
 import type { MenuLink } from "~/libs/menus";
+import { isItemActive } from "~/libs/utils";
 
 const { item, onClick } = defineProps<{
   item: MenuLink;
@@ -36,7 +37,7 @@ const { item, onClick } = defineProps<{
 }>();
 const themeStore = useThemeStore();
 const route = useRoute();
-const isActive = computed(() => route.path === item.href);
+const isActive = computed(() => isItemActive(item, route.path));
 
 const handleClick = async () => {
   if (onClick) {

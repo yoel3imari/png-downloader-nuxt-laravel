@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import TheSidebar from "~/components/layouts/TheSidebar.vue";
 import { useThemeStore } from "../stores/theme";
+import ModeDropdown from "~/components/ModeDropdown.vue";
 const themeStore = useThemeStore();
 definePageMeta({
   middleware: "auth",
@@ -20,7 +21,11 @@ definePageMeta({
     <TheSidebar />
     <div>
       <!-- topbar -->
-      <nav></nav>
+      <nav class="h-16 w-full flex items-center justify-end border-b">
+        <div>
+          <ModeDropdown />
+        </div>
+      </nav>
       <!-- main -->
       <main>
         <slot />

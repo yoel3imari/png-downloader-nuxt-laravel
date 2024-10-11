@@ -3,18 +3,21 @@
   <template v-if="item.hasChildren">
     <!-- wide -->
     <!-- when sidebar is wide display as accordions -->
+    <!-- open if active or has active child -->
     <Accordion
       v-if="themeStore.isdashboardSidebarWide"
       type="single"
-      class="w-full border-none"
+      class="w-full"
       collapsible
       default-value="item"
     >
-      <AccordionItem :value="item.label">
-        <AccordionSplittedTrigger class="hover:bg-secondary">
+      <AccordionItem
+        :value="item.label"
+      >
+        <AccordionSplittedTrigger class="">
           <SidebarItem :item="item" />
         </AccordionSplittedTrigger>
-        <AccordionContent class="ps-4 border-s">
+        <AccordionContent class="ms-4 border-s">
           <SidebarList v-for="(i, j) in item.children" :key="j" :item="i" />
         </AccordionContent>
       </AccordionItem>
@@ -22,7 +25,7 @@
     <!-- short -->
     <!-- when sidebar is minimal show as popovers -->
     <!-- show just parrent for now -->
-    <Popover v-else :open="isOpen" ref="popoverContent">
+    <Popover v-else ref="popoverContent" :open="isOpen">
       <PopoverTrigger
         class="w-full relative"
         @mouseover="() => (isOpen = true)"
@@ -68,13 +71,11 @@ import {
 import type { MenuLink } from "~/libs/menus";
 import SidebarItem from "./SidebarItem.vue";
 import { onClickOutside } from "@vueuse/core";
-
 defineProps<{
   item: MenuLink;
 }>();
 const themeStore = useThemeStore();
 const isOpen = ref(false);
-// const popover = useTemplateRef("popoverContent");
 const popoverContent = ref(null);
 
 onClickOutside(popoverContent, (e: MouseEvent) => {
@@ -89,6 +90,6 @@ onClickOutside(popoverContent, (e: MouseEvent) => {
   position: absolute;
   top: 8px;
   right: 4px;
-  color: var(--primary)
+  color: var(--primary);
 }
 </style>
