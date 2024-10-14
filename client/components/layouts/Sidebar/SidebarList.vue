@@ -11,9 +11,7 @@
       collapsible
       default-value="item"
     >
-      <AccordionItem
-        :value="item.label"
-      >
+      <AccordionItem :value="item.label">
         <AccordionSplittedTrigger class="">
           <SidebarItem :item="item" />
         </AccordionSplittedTrigger>
@@ -69,7 +67,7 @@ import {
   PopoverContent,
 } from "@/components/ui/popover";
 import type { MenuLink } from "~/libs/menus";
-import SidebarItem from "./forms/Sidebar/SidebarItem.vue";
+import SidebarItem from "@/components/layouts/Sidebar/SidebarItem.vue";
 import { onClickOutside } from "@vueuse/core";
 defineProps<{
   item: MenuLink;

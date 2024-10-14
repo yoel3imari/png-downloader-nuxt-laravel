@@ -3,8 +3,7 @@ import { Icon } from "@iconify/vue";
 
 const colorMode = useColorMode();
 const toggleMode = () => {
-  if (colorMode.value === "light") colorMode.value = "dark";
-  else colorMode.value = "light";
+  colorMode.value = colorMode.value === 'dark' ? 'light' : 'dark'
 };
 </script>
 

@@ -8,10 +8,6 @@
   </div>
 </template>
 
-<script setup lang="ts">
-definePageMeta({
-  middleware: "guest",
-});
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss"></style>

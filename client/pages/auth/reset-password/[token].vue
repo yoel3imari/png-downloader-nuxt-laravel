@@ -9,7 +9,8 @@
 <script setup lang="ts">
 import ResetPasswordForm from '~/components/forms/ResetPasswordForm.vue';
 definePageMeta({
-  layout: "auth"
+  layout: "auth",
+  middleware: "guest",
 })
 </script>
 

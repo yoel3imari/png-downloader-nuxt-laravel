@@ -2,10 +2,8 @@
 import TheSidebar from "~/components/layouts/TheSidebar.vue";
 import { useThemeStore } from "../stores/theme";
 import ModeDropdown from "~/components/ModeDropdown.vue";
+
 const themeStore = useThemeStore();
-definePageMeta({
-  middleware: "auth",
-});
 </script>
 
 <template>

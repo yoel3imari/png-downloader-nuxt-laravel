@@ -12,6 +12,7 @@ export default defineNuxtRouteMiddleware(async () => {
     }
     const { $api } = useNuxtApp();
     await $api.get("verify-token");
+    setPageLayout("dashboard");
     return;
   } catch (error: any) {
     // purge token and user

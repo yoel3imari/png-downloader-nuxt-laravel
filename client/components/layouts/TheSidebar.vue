@@ -48,10 +48,12 @@
 
 <script setup lang="ts">
 import { dashboardSidebarMenu } from "~/libs/menus";
-import SidebarList from "../SidebarList.vue";
+import SidebarList from "./Sidebar/SidebarList.vue";
 import { useThemeStore } from "../../stores/theme";
 import { Aperture, PanelRightClose, PanelRightOpen } from "lucide-vue-next";
 import { useAuthStore } from "../../stores/auth";
+import SidebarItem from "./Sidebar/SidebarItem.vue";
+
 const themeStore = useThemeStore();
 const authStore = useAuthStore();
 const bodyItems = computed(() => dashboardSidebarMenu.slice(0, -1));
@@ -59,19 +61,6 @@ const footerItem = computed(
   () => dashboardSidebarMenu[dashboardSidebarMenu.length - 1]
 );
 
-// const openSidebarOnHover = () => {
-//   if (!themeStore.isdashboardSidebarWide && !themeStore.isHovered) {
-//     themeStore.isHovered = true;
-//     themeStore.openDashboardSidebar();
-//   }
-// };
-
-// const closeSidebarOnHover = () => {
-//   if (themeStore.isdashboardSidebarWide && themeStore.isHovered) {
-//     themeStore.isHovered = false;
-//     themeStore.closeDashboardSidebar();
-//   }
-// };
 </script>
 
 <style lang="scss">
