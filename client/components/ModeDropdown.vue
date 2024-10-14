@@ -6,9 +6,6 @@ const toggleMode = () => {
   if (colorMode.value === "light") colorMode.value = "dark";
   else colorMode.value = "light";
 };
-onMounted(() => {
-  colorMode.value = "auto";
-})
 </script>
 
 <template>

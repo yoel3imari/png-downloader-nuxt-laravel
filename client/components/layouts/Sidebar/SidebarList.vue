@@ -69,7 +69,7 @@ import {
   PopoverContent,
 } from "@/components/ui/popover";
 import type { MenuLink } from "~/libs/menus";
-import SidebarItem from "./SidebarItem.vue";
+import SidebarItem from "./forms/Sidebar/SidebarItem.vue";
 import { onClickOutside } from "@vueuse/core";
 defineProps<{
   item: MenuLink;

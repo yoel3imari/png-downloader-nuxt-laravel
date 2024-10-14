@@ -19,7 +19,7 @@ const props = withDefaults(defineProps<Props>(), {
   <Primitive
     :as="as"
     :as-child="asChild"
-    class="min-w-[100px]"
+    class="min-w-[100px] transition-all"
     :class="cn(buttonVariants({ variant, size }), props.class)"
   >
     <slot />

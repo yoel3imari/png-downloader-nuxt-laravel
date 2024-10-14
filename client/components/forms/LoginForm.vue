@@ -55,7 +55,6 @@ import Button from "@/components/ui/button/Button.vue";
 import * as z from "zod";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
-import { useToast } from "../ui/toast";
 import PasswordInput from "../ui/input/PasswordInput.vue";
 import { useQuery } from "@/composables/useQuery";
 
@@ -69,7 +68,7 @@ const formSchema = toTypedSchema(
 const form = useForm({
   validationSchema: formSchema,
   initialValues: {
-    email: "",
+    email: "yusf.works@gmail.com",
     password: "12345678A;",
   },
 });

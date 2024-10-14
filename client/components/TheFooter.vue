@@ -1,5 +1,5 @@
 <template>
-  <footer class="w-full pt-6 pb-4 px-2 md:px-6 bg-primary text-secondary">
+  <footer class="w-full pt-6 pb-4 px-2 md:px-6 bg-primary-foreground text-primary">
     <div>
       <ul class="w-full flex flex-col items-start gap-2">
         <li v-for="r in routes" :key="r.name">

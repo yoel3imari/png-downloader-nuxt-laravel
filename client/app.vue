@@ -11,4 +11,8 @@ useHead({
     return titleChunk ? `${titleChunk} - PNG Downloader` : "PNG Downloader";
   },
 });
+const mode = useColorMode();
+onMounted(() => {
+  mode.value = "light";
+})
 </script>

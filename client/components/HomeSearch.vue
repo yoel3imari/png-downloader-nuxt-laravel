@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed bottom-0 left-0 right-0 px-6 py-8 bg-secondary shadow-lg md:relative md:bg-transparent md:shadow-none w-full"
+    class="fixed bottom-0 left-0 right-0 px-6 py-8 bg-white shadow-lg md:relative md:bg-transparent md:shadow-none w-full"
   >
     <div class="w-full h-full flex items-center justify-center">
       <div
@@ -11,16 +11,19 @@
           v-model="term"
           type="text"
           name="term"
-          class="w-full focus:outline-none font-bold ps-6 h-full rounded-s-xl bg-secondary border-2 border-primary"
+          class="w-full focus:outline-none font-bold ps-6 h-full rounded-s-xl bg-white text-gray-900 border-e"
           placeholder="Search..."
           @keyup.enter="handleSearch"
         />
         <button
           type="submit"
-          class="flex items-center justify-center h-full w-20 bg-primary text-secondary rounded-e-lg"
+          class="flex items-center justify-center h-full w-20 bg-white text-gray-900 rounded-e-lg"
           @click.prevent="handleSearch"
         >
-          <Icon name="heroicons-solid:magnifying-glass" class="text-3xl" />
+          <Icon
+            name="heroicons-solid:magnifying-glass"
+            class="text-3xl hover:scale-[1.2] transition-all w-full"
+          />
         </button>
       </div>
     </div>
