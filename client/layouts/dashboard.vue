@@ -19,17 +19,14 @@ const themeStore = useThemeStore();
     <TheSidebar />
     <div>
       <!-- topbar -->
-      <nav class="h-16 w-full flex items-center justify-end border-b">
+      <nav class="h-16 w-full flex items-center justify-end border-b px-4">
         <div>
           <ModeDropdown />
         </div>
       </nav>
       <!-- main -->
-      <main>
+      <main class="p-4 h-full">
         <slot />
-        <div>
-          <button @click="themeStore.toggleDashboardSidebar">toggle</button>
-        </div>
       </main>
     </div>
   </div>
