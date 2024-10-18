@@ -2,6 +2,7 @@ import {
   Image,
   Layout,
   LogOut,
+  Shapes,
   UploadCloud,
   type IconNode,
 } from "lucide-vue-next";
@@ -33,6 +34,13 @@ export const dashboardSidebarMenu: MenuLink[] = [
     hasChildren: true,
     isRoot: true,
     children: [
+      {
+        href: "/dashboard/images/categories",
+        label: "Categories",
+        icon: Shapes,
+        hasChildren: false,
+        isRoot: false,
+      },
       {
         href: "/dashboard/images/upload",
         label: "Upload",

@@ -19,12 +19,12 @@ export default defineNuxtRouteMiddleware(async () => {
     tokenService.removeToken();
     const user = useStorage(USER_KEY, "");
     user.value = null;
-
     useToast().toast({
       title: error?.message || "Unauthenticated",
       description: "Login to get access to this place",
       variant: "destructive",
     });
+    setPageLayout("dashboard");
     return navigateTo("/auth/login");
   }
 });

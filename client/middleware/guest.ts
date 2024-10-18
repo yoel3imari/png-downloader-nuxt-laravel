@@ -12,7 +12,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
   console.log(to.name, "guest middleware");
 
   if (authRoutes.includes(String(to.name)) && tokenService.hasToken()) {
-    setPageLayout('auth')
+    setPageLayout('dashboard')
     return navigateTo("/dashboard");
   }
 
