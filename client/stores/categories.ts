@@ -1,6 +1,6 @@
 export const useCategoryStore = defineStore("category", () => {
   const { $api } = useNuxtApp();
-  const categories = ref([]);
+  const categories = ref();
   const params = ref<{
     search: string;
     image_count?: [number, number] ;
@@ -14,7 +14,8 @@ export const useCategoryStore = defineStore("category", () => {
     let query = `/categories?search=${params.value.search}`
     if( params.value.image_count ) query += `&image_count=${params.value.image_count}`;
     if( params.value.per_page ) query += `&image_count=${params.value.per_page}`;
-    $api.get(query);
+    const res = await $api.get(query);
+    categories.value = res;
   };
 
   return {

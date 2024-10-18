@@ -97,7 +97,7 @@ class ApiService {
 
   async postWithFile(
     url: string,
-    data: FormData,
+    data: any,
     config?: AxiosRequestConfig
   ): Promise<ApiResponse> {
     // this.crsf();
