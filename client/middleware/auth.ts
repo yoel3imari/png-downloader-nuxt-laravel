@@ -8,8 +8,11 @@ import { useStorage } from "@vueuse/core";
 export default defineNuxtRouteMiddleware(async () => {
   try {
     if (!tokenService.hasToken()) {
-      return navigateTo("/auth/login");
+      console.log("does not have token", "auth middleware");
+      await navigateTo("/auth/login");
+      return;
     }
+
     const { $api } = useNuxtApp();
     await $api.get("verify-token");
     setPageLayout("dashboard");
@@ -25,6 +28,7 @@ export default defineNuxtRouteMiddleware(async () => {
       variant: "destructive",
     });
     setPageLayout("dashboard");
-    return navigateTo("/auth/login");
+    await navigateTo("/auth/login");
+    return;
   }
 });

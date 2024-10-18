@@ -17,5 +17,9 @@ export const useCategoryStore = defineStore("category", () => {
     $api.get(query);
   };
 
-  return {};
+  return {
+    categories,
+    params,
+    getCategories
+  };
 });

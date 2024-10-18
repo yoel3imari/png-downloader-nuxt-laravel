@@ -45,7 +45,9 @@ const formSchema = toTypedSchema(
 );
 
 // get availabe categories
-const getCategories
+onMounted(() => {
+  
+})
 
 </script>
 

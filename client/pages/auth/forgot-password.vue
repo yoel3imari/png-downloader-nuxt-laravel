@@ -12,6 +12,9 @@ definePageMeta({
   layout: "auth",
   middleware: "guest",
 });
+onMounted(() => {
+  setPageLayout('auth');
+})
 </script>
 
 <style lang="scss"></style>

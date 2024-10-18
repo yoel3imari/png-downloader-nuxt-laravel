@@ -1,5 +1,5 @@
 <template>
-<h1>Dashboard home</h1>
+<div>Categories</div>
 </template>
 
 <script setup lang="ts">
@@ -7,7 +7,7 @@ definePageMeta({
   layout: "dashboard",
   middleware: "auth",
 })
-onBeforeMount(() => {
+onMounted(() => {
   setPageLayout('dashboard');
 })
 </script>

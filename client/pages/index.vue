@@ -28,10 +28,10 @@ definePageMeta({
 });
 </script>
 
-<style lang="scss">
+<style>
 #hero {
   background: linear-gradient(0deg, rgba(30, 30, 30, 0.6), rgba(0, 0, 0, 0.5)),
-    url("images/hero_bg.jpg");
+    url(" /images/hero_bg.jpg");
   background-position: center;
   background-size: cover;
 }
