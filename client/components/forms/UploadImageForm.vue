@@ -95,7 +95,12 @@ import Input from "@/components/ui/input/Input.vue";
 import Button from "@/components/ui/button/Button.vue";
 import { useForm } from "vee-validate";
 import { useImageStore } from "~/stores/images";
-import { useToast } from "../ui/toast";
+
+// get availabe categories
+const categStore = useCategoryStore();
+onMounted(async () => {
+  await categStore.getCategories();
+});
 
 const formSchema = toTypedSchema(
   z.object({
@@ -142,11 +147,6 @@ const onSubmit = form.handleSubmit(async (values) => {
 
 const {isLoading, execute} = useQuery(onSubmit);
 
-// get availabe categories
-const categStore = useCategoryStore();
-onMounted(async () => {
-  await categStore.getCategories();
-});
 </script>
 
 <style lang="scss"></style>
