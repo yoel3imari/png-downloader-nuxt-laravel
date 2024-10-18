@@ -1,6 +1,6 @@
 <template>
   <!-- register form -->
-  <form @submit="execute">
+  <form @submit.prevent="execute">
     <!-- name -->
     <FormField v-slot="{ componentField }" name="name">
       <FormItem>
