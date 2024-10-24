@@ -73,10 +73,12 @@ class TagSeeder extends Seeder
             "Travel Destinations",
         ];
 
+        $tags = array_unique($tags);
+
         foreach ($tags as $tag) {
             DB::table('tags')->insert([
                 "name" => $tag,
-                "image_count" => 0,
+                "post_count" => 0,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

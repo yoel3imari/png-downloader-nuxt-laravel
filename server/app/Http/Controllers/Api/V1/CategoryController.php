@@ -18,7 +18,7 @@ class   CategoryController extends Controller
     {
         // Get search parameters
         $search = $request->query('search');
-        $imageCount = $request->query('image_count');
+        $postCount = $request->query('post_count');
         $perPage = $request->query('per_page', 10);
 
         // Query categories with optional search
@@ -28,8 +28,8 @@ class   CategoryController extends Controller
             $query->where('name', 'LIKE', '%' . $search . '%');
         }
 
-        if ($imageCount && is_array($imageCount) && count($imageCount) === 2) {
-            $query->where($imageCount);
+        if ($postCount && is_array($postCount) && count($postCount) === 2) {
+            $query->where($postCount);
         }
 
         // Get paginated results
@@ -81,7 +81,7 @@ class   CategoryController extends Controller
             $category = Category::findOrFail($id);
             $validated = $request->validate([
                 'name' => 'required|string',
-                'image_count' => 'required|integer|min:0',
+                'post_count' => 'required|integer|min:0',
             ]);
 
             $category->update($validated);

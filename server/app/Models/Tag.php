@@ -9,10 +9,10 @@ class Tag extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'image_count'];
+    protected $fillable = ['name', 'post_count'];
     // belongs to many images
-    public function images(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function posts(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Image::class);
+        return $this->belongsToMany(Post::class);
     }
 }

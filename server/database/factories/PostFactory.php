@@ -3,13 +3,15 @@
 namespace Database\Factories;
 
 use App\Models\Category;
+use App\Models\Image;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Image>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
  */
-class ImageFactory extends Factory
+class PostFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -24,11 +26,18 @@ class ImageFactory extends Factory
         $category = Category::inRandomOrder()->first();
         $category->increment('post_count');
 
+        $user_id = User::inRandomOrder()->pluck('id')->first();
+        $image_id = Image::inRandomOrder()->pluck('id')->first();
+
         return [
-            "ref" => 'REF-' . $this->faker->unique()->numerify('######'),
-            "size" => $this->faker->numberBetween(1, 5242880),
-            "width" => $this->faker->numberBetween(1, 1024),
-            "height" => $this->faker->numberBetween(1, 1024),
+            "slug" => Str::slug($title) . '_' . $dt,
+            "title" => $title,
+            "description" => $this->faker->paragraph(),
+            "visit_count" => $this->faker->numberBetween(0, 10000),
+            "download_count" => $this->faker->numberBetween(0, 10000),
+            "category_id" => $category->id,
+            "user_id" => $user_id,
+            "image_id" => $image_id,
             "created_at" => $this->faker->dateTimeBetween($startDate = '-30 days', $endDate = 'now', $timezone = null),
             "updated_at" => $this->faker->dateTimeBetween($startDate = '-30 days', $endDate = 'now', $timezone = null)
         ];

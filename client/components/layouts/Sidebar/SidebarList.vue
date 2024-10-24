@@ -40,7 +40,7 @@
         <SidebarItem :item="item" />
       </PopoverTrigger>
       <PopoverContent
-        v-click-outside="() => (isOpen = false)"
+        ref="targetRef"
         side="left"
         :side-offset="5"
         align="start"
@@ -76,9 +76,12 @@ const themeStore = useThemeStore();
 const isOpen = ref(false);
 const popoverContent = ref(null);
 
-onClickOutside(popoverContent, (e: MouseEvent) => {
-  e.preventDefault();
-  isOpen.value = false;
+const targetRef = ref(null);
+onClickOutside(targetRef, (event) => {
+  event.preventDefault();
+  if (isOpen.value) {
+    isOpen.value = false;
+  }
 });
 </script>
 

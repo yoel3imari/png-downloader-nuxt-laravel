@@ -18,7 +18,9 @@ class CategoryFactory extends Factory
     {
         return [
             "name" => $this->faker->unique()->name(),
-            "image_count" => $this->faker->numberBetween(1, 1000),
+            "post_count" => $this->faker->numberBetween(1, 1000),
+            "created_at" => $this->faker->dateTimeBetween($startDate = '-30 days', $endDate = 'now', $timezone = null),
+            "updated_at" => $this->faker->dateTimeBetween($startDate = '-30 days', $endDate = 'now', $timezone = null)
         ];
     }
 }

@@ -20,7 +20,7 @@ class TagController extends Controller
     {
         // Get search parameters
         $search = $request->query('search');
-        $imageCount = $request->query('image_count');
+        $postCount = $request->query('post_count');
         $perPage = $request->query('per_page', 25);
 
         // Query tags with optional search
@@ -30,8 +30,8 @@ class TagController extends Controller
             $query->where('name', 'LIKE', '%' . $search . '%');
         }
 
-        if ($imageCount && is_array($imageCount) && count($imageCount) === 2) {
-            $query->whereBetween('image_count', [$imageCount[0], $imageCount[1]]);
+        if ($postCount && is_array($postCount) && count($postCount) === 2) {
+            $query->whereBetween('post_count', [$postCount[0], $postCount[1]]);
         }
 
         // Get paginated results
@@ -54,7 +54,7 @@ class TagController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|unique:tags|max:255',
-            'image_count' => 'nullable|integer|min:0',
+            'post_count' => 'nullable|integer|min:0',
         ]);
 
         $tag = Tag::create($validated);
@@ -92,7 +92,7 @@ class TagController extends Controller
 
             $validated = $request->validate([
                 'name' => 'sometimes|required|string|unique:tags,name,' . $tag->id . '|max:255',
-                'image_count' => 'nullable|integer|min:0',
+                'post_count' => 'nullable|integer|min:0',
             ]);
 
             $tag->update($validated);

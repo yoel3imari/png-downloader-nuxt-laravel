@@ -119,10 +119,12 @@ class CategorySeeder extends Seeder
             "Windows",
         ];
 
+        $categories = array_unique($categories);
+
         foreach ($categories as $category) {
             DB::table('categories')->insert([
                 'name' => $category,
-                'image_count' => 0,
+                'post_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

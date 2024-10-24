@@ -31,12 +31,12 @@ class TagService
                 // Find the tag or create a new one
                 $tag = Tag::firstOrCreate(
                     ['name' => $tagName],
-                    ['image_count' => 1]
+                    ['post_count' => 1]
                 );
 
                 // If the tag already existed, increment the image_count
                 if (!$tag->wasRecentlyCreated) {
-                    $tag->increment('image_count');
+                    $tag->increment('post_count');
                 }
 
                 // Add the tag ID to the result array

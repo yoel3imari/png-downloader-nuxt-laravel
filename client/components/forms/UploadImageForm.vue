@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="execute">
-    <div class="grid grid-cols-2">
+    <div class="grid sm:grid-cols-2 gap-4">
       <div>
         <!-- title -->
         <FormField v-slot="{ componentField }" name="title">
@@ -45,8 +45,8 @@
             </FormControl>
           </FormItem>
         </FormField>
-        <!-- tags -->
-        <FormField v-slot="{ value }" name="tags">
+        <!-- tags & -->
+        <FormField v-slot="{ value }" name="tags" class="mb-0">
           <FormItem>
             <FormControl>
               <TagsInput :model-value="value">
@@ -60,15 +60,35 @@
             </FormControl>
           </FormItem>
         </FormField>
+
+        <Button class="w-full h-12" type="submit" :disabled="isLoading">
+          <span v-if="isLoading">Uploading...</span>
+          <span v-else>Upload New Image</span>
+        </Button>
       </div>
-      <div>
+      <div class="h-full">
         <!-- file -->
+        <!-- drag and drop zone -->
+        <div
+          ref="dropZoneRef"
+          class="w-full h-full mb-4 bg-muted/95 border-4 border-dashed rounded-lg flex items-center justify-center"
+        >
+          <FormField v-slot="{ componentField }" name="title">
+            <FormItem>
+              <FormControl>
+                <Label>Drag & Drop a PNG image or</Label>
+                <Input
+                  type="file"
+                  v-bind="componentField"
+                  placeholder="Browse files"
+                  class="cursor-pointer"
+                />
+              </FormControl>
+            </FormItem>
+          </FormField>
+        </div>
       </div>
     </div>
-    <Button class="mb-4" type="submit">
-      <span v-if="isLoading">...</span>
-      <span v-else>Submit</span>
-    </Button>
   </form>
 </template>
 
@@ -96,7 +116,21 @@ import Button from "@/components/ui/button/Button.vue";
 import { useForm } from "vee-validate";
 import { useImageStore } from "~/stores/images";
 
-// get availabe categories
+const dropZoneRef = ref(null);
+const onDrop = (files: File[] | null) => {
+  // affect image to formSchema
+  // console.log(files);
+  if( files?.length ) {
+    form.values.image = files[0];
+  }
+}
+useDropZone(dropZoneRef, {
+  onDrop,
+  dataTypes: ["image/png"],
+  multiple: false,
+  preventDefaultForUnhandled: true,
+});
+
 const categStore = useCategoryStore();
 onMounted(async () => {
   await categStore.getCategories();
@@ -135,18 +169,17 @@ const form = useForm({
     description: undefined,
     category: undefined,
     tags: [],
-    image: undefined
-  }
-})
+    image: undefined,
+  },
+});
 
 const onSubmit = form.handleSubmit(async (values) => {
   const imageStore = useImageStore();
   const res = await imageStore.uploadImage(values);
   return res;
-})
+});
 
-const {isLoading, execute} = useQuery(onSubmit);
-
+const { isLoading, execute } = useQuery(onSubmit);
 </script>
 
 <style lang="scss"></style>

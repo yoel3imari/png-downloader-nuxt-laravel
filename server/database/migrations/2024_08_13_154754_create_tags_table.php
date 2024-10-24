@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tags', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->unsignedInteger('image_count')->default(0);
+            $table->unsignedInteger('post_count')->default(0);
             $table->timestamps();
         });
     }
